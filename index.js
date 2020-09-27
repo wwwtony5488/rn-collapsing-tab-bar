@@ -293,12 +293,7 @@ const ScrollableTabView = createReactClass({
 
 		const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 			const paddingToBottom = 20;
-			return
-				contentSize.height -
-				contentOffset.y -
-				layoutMeasurement.height -
-				paddingToBottom <
-				layoutMeasurement.height * (this.props.onEndReachedThreshold || 0.5);
+			return contentSize.height - contentOffset.y - layoutMeasurement.height - paddingToBottom < layoutMeasurement.height * (this.props.onEndReachedThreshold || 0.5);
 		};
 
 		const ContainerView = this.props.collapsableBar ? ScrollView : View;
