@@ -293,11 +293,17 @@ const ScrollableTabView = createReactClass({
 
 		const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 			const paddingToBottom = 20;
-			return layoutMeasurement.height + contentOffset.y >=
-				contentSize.height - paddingToBottom;
+			return
+				contentSize.height -
+				contentOffset.y -
+				layoutMeasurement.height -
+				paddingToBottom <
+				layoutMeasurement.height * (this.props.onEndReachedThreshold || 0.5);
 		};
 
 		const ContainerView = this.props.collapsableBar ? ScrollView : View;
+
+		const showsVerticalScrollIndicator = this.props.showsVerticalScrollIndicator === undefined ? true : this.props.showsVerticalScrollIndicator;
 
 		return (<ContainerView
 			style={[styles.container, this.props.style]}
@@ -312,6 +318,7 @@ const ScrollableTabView = createReactClass({
 					}
 				}
 			}}
+			showsVerticalScrollIndicator={showsVerticalScrollIndicator}
 			onScrollEndDrag={event => { this.contentScrollDistance = event.nativeEvent.contentOffset.y; }}
 			refreshControl={this.props.refreshControl ? this.props.refreshControl : null}
 			scrollEventThrottle={16}
